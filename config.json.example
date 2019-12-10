@@ -1,0 +1,13 @@
+{
+    "boards": [
+        {
+            "id": 300168, 
+            "webhook": "https://hooks.slack.com/services/S7JYXJQR8/14SJ55O34/JnFrIil9FHbWpn6WWqIAO9md"
+        }, 
+        {
+            "id": 390395, 
+            "webhook": "https://hooks.slack.com/services/GXTZJAZIP/8B0A24538/eZL7SG4eJwly4yWIfotndtYw"
+        }
+    ], 
+    "session_key": "ty12r40jx8fulhpuncavp8ib1270l43zas9kx08yk1cokgaqfuwjy6bu65vu665jcgnw80sp0i8kfhcd994jjty6jnmvjsxw"
+}

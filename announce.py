@@ -13,7 +13,7 @@ def get_results(leaderboard_id, session_key):
 
 def stars_since_prev(prev, res):
     new = []
-    for i, m in res['members'].items():
+    for _, m in res['members'].items():
         if int(m['last_star_ts']) > prev:
             cdl = m['completion_day_level']
             for day, parts in cdl.items():
@@ -34,18 +34,31 @@ def make_time_string(ts):
     return datetime.datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S GMT')
 
 
-def send_slack_message(msg, url):
-    requests.post(url, data=json.dumps({'text': msg}), headers={'Content-Type': 'application/json'})
+def send_message(msg, url):
+    data = {'text': msg}
+    requests.post(url, data=json.dumps(data), headers={'Content-Type': 'application/json'})
 
 
 def post(stars, url):
-    s = '\n'.join(f'{star[0]} completed day {star[1]} part {star[2]} on {make_time_string(star[3])}' for star in stars)
-    send_slack_message(s, url)
+    if 'hooks.slack.com' in url:
+        sep = '\n'
+    elif 'outlook.office.com' in url:
+        sep = '<br />'
+    else:
+        raise RuntimeError(f'unable to determine webhook provider from url ({url})')
+    s = sep.join(f'{star[0]} completed day {star[1]} part {star[2]} on {make_time_string(star[3])}' for star in stars)
+    send_message(s, url)
 
 
 def post_leaderboard(stars, url):
-    s = '*Stars* :star:\n```' + '\n'.join(f'{s[1]:3d} {s[0]}' for s in stars) + '```'
-    send_slack_message(s, url)
+    if 'hooks.slack.com' in url:
+        s = '*Stars* ⭐\n```' + '\n'.join(f'{s[1]:3d} {s[0]}' for s in stars) + '```'
+    elif 'outlook.office.com' in url:
+        # MS Teams doesn't handle line breaks in code pre-formatted blocks for whatever reason
+        s = '**Stars** ⭐<br />' + '<br />'.join(f'{s[1]:3d} {s[0]}' for s in stars)
+    else:
+        raise RuntimeError(f'unable to determine webhook provider from url ({url})')
+    send_message(s, url)
 
 
 def main():

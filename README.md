@@ -17,10 +17,10 @@ Rename `config.json.example` to `config.json` and include the following informat
 
 To post the current leaderboard, run
 
-    python announce.py --leaderboard
+    python -m aocannounce --leaderboard
 
 and to post all puzzle solutions that have been submitted since the last run, run
 
-    python announce.py --newscores
+    python -m aocannounce --newscores
 
 You may then wish to run the script as a cronjob. Be aware that requests are only allowed every 15 minutes, so make sure not to run your script more often than that.

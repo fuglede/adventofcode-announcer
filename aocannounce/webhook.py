@@ -56,6 +56,7 @@ class SlackMessageBuilder(MessageBuilder):
 def get_message_builder(url: str) -> MessageBuilder:
     if "hooks.slack.com" in url:
         return SlackMessageBuilder()
-    if "outlook.office.com" in url:
+    # Teams is known to use outlook.office.com and webhook.office.com
+    if "office.com" in url:
         return TeamsMessageBuilder()
     raise RuntimeError(f"unable to determine webhook provider from url ({url})")

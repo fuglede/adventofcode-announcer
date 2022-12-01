@@ -36,9 +36,12 @@ class Leaderboard:
 
 
 def get_leaderboard(year: int, leaderboard_id: int, session_key: str) -> Leaderboard:
+    # We add a custom User-Agent to comply with
+    # https://old.reddit.com/r/adventofcode/comments/z9dhtd/please_include_your_contact_info_in_the_useragent/
     res = requests.get(
         f"https://adventofcode.com/{year}/leaderboard/private/"
         f"view/{leaderboard_id}.json",
         cookies={"session": session_key},
+        headers={"User-Agent": 'github.com/fuglede/adventofcode-announcer by github@fuglede.dk'}
     ).json()
     return Leaderboard.Schema().load(res)

@@ -9,6 +9,7 @@ import requests
 @dataclass
 class Timestamp:
     get_star_ts: int
+    star_index: int
 
     def as_datetime(self) -> datetime:
         return datetime.utcfromtimestamp(self.get_star_ts)

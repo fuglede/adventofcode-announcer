@@ -1,4 +1,5 @@
 import argparse
+import datetime
 import json
 
 from .announce import post_new_scores, post_leaderboard
@@ -24,7 +25,8 @@ def main():
         leaderboard_id = board["id"]
         url = board["webhook"]
         message_builder = get_message_builder(url)
-        leaderboard = get_leaderboard(2019, leaderboard_id, session_key)
+        year = datetime.datetime.now().year
+        leaderboard = get_leaderboard(year, leaderboard_id, session_key)
         if args.post_new_scores:
             post_new_scores(leaderboard, message_builder, url)
         if args.post_leaderboard:

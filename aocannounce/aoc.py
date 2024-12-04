@@ -34,6 +34,7 @@ class Leaderboard:
     owner_id: int
     members: Dict[int, Member]
     event: int
+    day1_ts: int
 
 
 def get_leaderboard(year: int, leaderboard_id: int, session_key: str) -> Leaderboard:
